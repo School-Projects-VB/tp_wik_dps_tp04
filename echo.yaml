@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: echowik
+  namespace: tp4
+spec:
+  containers:
+    - name: echowik
+      image: registry.cluster.wik.cloud/public/echo
+      ports:
+        - containerPort: 8080
