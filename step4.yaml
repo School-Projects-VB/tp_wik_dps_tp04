@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: echowik-step4
+spec:
+  selector:
+    step: "4"
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echowik-step4
+  namespace: tp4
+  labels:
+    step: "4"
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+  selector:
+    matchLabels:
+      step: "4"
+  template:
+    metadata:
+      labels:
+       step: "4"
+    spec:
+      containers:
+        - name: echowik-step4
+          image: registry.cluster.wik.cloud/public/echo
+          ports:
+          - containerPort: 8080
