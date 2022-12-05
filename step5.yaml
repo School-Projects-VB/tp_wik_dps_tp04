@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: echowik-step5
+spec:
+  selector:
+    step: "5"
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echowik-step5
+  namespace: tp4
+  labels:
+    step: "5"
+spec:
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+  selector:
+    matchLabels:
+      step: "5"
+  template:
+    metadata:
+      labels:
+       step: "5"
+    spec:
+      containers:
+        - name: echowik-step5
+          image: registry.cluster.wik.cloud/public/echo
+          ports:
+          - containerPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: echowik-step5
+  namespace: tp4
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  - host : echowik-step5-ingress.test
+    http:
+      paths:
+      - path: /ping
+        pathType: Prefix
+        backend:
+          service:
+            name: echowik-step5
+            port:
+              number: 8080
