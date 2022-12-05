@@ -1,11 +1,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: echowik
+  name: echowik-step1
   namespace: tp4
+  labels:
+    step: "1"
 spec:
   containers:
-    - name: echowik
+    - name: echowik-step1
       image: registry.cluster.wik.cloud/public/echo
       ports:
         - containerPort: 8080
