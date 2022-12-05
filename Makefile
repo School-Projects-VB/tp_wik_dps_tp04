@@ -1,7 +1,12 @@
 namespace:
 	kubectl create namespace tp4
 
-start:
-	kubectl port-forward echowik 8080
+apply:
+	kubectl apply -f step1.yaml
+	kubectl apply -f step2.yaml
 
-.PHONY: namespace
+delete:
+	kubectl delete pod echowik-step1
+	kubectl delete pod echowik-step2
+
+.PHONY: namespace apply delete
