@@ -7,4 +7,4 @@ ingress:
 delete:
 	kubectl delete pod --all
 
-.PHONY: namespace apply delete
+.PHONY: namespace ingress delete
